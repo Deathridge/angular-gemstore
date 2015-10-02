@@ -2,6 +2,7 @@
 <html ng-app="gemStore">
 	<head>
 		<link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" />
+		<link rel="stylesheet" type="text/css" href="css/primary.css" />
 	</head>
 	<body class="container" ng-controller="StoreController as store">
 	<div  class="product row" ng-repeat="product in store.products | orderBy:'-price'">
@@ -32,14 +33,14 @@
 			<cite>by: {{ review.author }}</cite>
 			</blockquote>
 
-			<form name="reviewForm" ng-controller="ReviewController as reviewCtrl" ng-submit="reviewCtrl.addReview(product)">
+			<form name="reviewForm" ng-controller="ReviewController as reviewCtrl" ng-submit="reviewForm.$valid && reviewCtrl.addReview(product)" novalidate>
 				<blockquote>
 					<b>Stars: {{ reviewCtrl.review.stars }}</b>
 					{{ reviewCtrl.review.body }}
 					<cite>by: {{ reviewCtrl.review.author }}</cite>
 				</blockquote>
 				<fieldset class="form-group">
-				<select class="form-control" ng-model="reviewCtrl.review.stars" class="form-control" title="Stars">
+				<select class="form-control" ng-model="reviewCtrl.review.stars" class="form-control" title="Stars" required>
 					<option value="1">1 Star</option>	
 					<option value="2">2 Star</option>	
 					<option value="3">3 Star</option>	
@@ -48,12 +49,13 @@
 				</select>
 				</fieldset>
 				<fieldset class="form-group">
-				<textarea ng-model="reviewCtrl.review.body" class="form-control"></textarea>
+				<textarea ng-model="reviewCtrl.review.body" class="form-control" required></textarea>
 				</fieldset>
 				<fieldset class="form-group">						
-				<input type="email" class="form-control" placeholder="jimmydean@test.org" title="Email" ng-model="reviewCtrl.review.author"/>
+				<input type="email" class="form-control" placeholder="jimmydean@test.org" title="Email" ng-model="reviewCtrl.review.author" required/>
 				</fieldset>
 				<fieldset class="form-group">
+				<div> reviewForm is {{reviewForm.$valid}}</div>
 				<input type="submit" class="btn btn-primary pull-right" value="Submit Review"/>
 				</fieldset>
 			</form>
